@@ -74,6 +74,12 @@ button[disabled]{opacity:.7;cursor:progress}
 .thanks img{width:56px;height:56px;margin-bottom:8px}
 .thanks h2{margin-bottom:8px}
 .thanks p{color:var(--muted);margin:0 0 10px}
+.guides{margin:48px 0 8px;padding-top:36px;border-top:1px solid var(--line)}
+.guides h2{font-size:clamp(24px,3vw,30px);margin:0 0 8px;color:#123E47;letter-spacing:-.015em}
+.guides-lead{margin:0 0 20px;color:var(--muted);max-width:40em}
+.guide-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;max-width:40em}
+.guide-list a{font-weight:600;text-decoration:none;color:var(--teal)}
+.guide-list a:hover{text-decoration:underline;color:var(--teal-dark)}
 footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 40px;font-size:14px;color:var(--muted)}
 footer .disc{font-weight:600;color:var(--ink);font-size:15px;margin:0 0 8px}
 footer p{margin:0 0 6px}
@@ -82,6 +88,7 @@ footer p{margin:0 0 6px}
   body{font-size:16px}
   .sub{font-size:17.5px}
   .card{padding:22px}
+  .guides{margin-top:36px;padding-top:28px}
 }
 @media (max-width:520px){
   .wrap{padding:0 16px}
@@ -153,6 +160,21 @@ footer p{margin:0 0 6px}
       </div>
     </aside>
   </main>
+
+  <section class="guides" id="guides" aria-labelledby="guides-h">
+    <h2 id="guides-h">Arizona HOA guides</h2>
+    <p class="guides-lead">Plain-English explainers of Arizona HOA statutes, for homeowners sorting through a notice.</p>
+    <ul class="guide-list">
+      <li><a href="/respond-to-hoa-violation-letter-arizona/">How to Respond to an HOA Violation Letter in Arizona</a></li>
+      <li><a href="/request-hoa-records-arizona/">How to Request HOA Records in Arizona (A.R.S. 33-1805)</a></li>
+      <li><a href="/arizona-hoa-fines-late-fees-limits/">Arizona HOA Fines &amp; Late Fees: What the Law Limits</a></li>
+      <li><a href="/arizona-hoa-board-meetings-open-recording/">Arizona HOA Board Meetings: Your Right to Attend &amp; Record</a></li>
+      <li><a href="/arizona-adre-hoa-dispute-petition/">How to File an HOA Dispute Petition with Arizona ADRE</a></li>
+      <li><a href="/arizona-hoa-lien-foreclosure/">Can an Arizona HOA Foreclose? Liens Explained</a></li>
+      <li><a href="/arizona-hoa-flags-political-signs/">Arizona HOA Rules on Flags &amp; Political Signs</a></li>
+      <li><a href="/arizona-hoa-solar-panels-law/">Can an Arizona HOA Ban Solar Panels? (A.R.S. 33-1816)</a></li>
+    </ul>
+  </section>
 
   <footer>
     <p class="disc">Not a law firm and not legal advice.</p>
