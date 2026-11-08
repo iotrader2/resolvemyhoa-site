@@ -59,7 +59,7 @@ It can't prohibit a front- or backyard flagpole but may regulate location, size,
 If your locality doesn't regulate, the HOA may cap total sign area at nine square feet (A.R.S. 33-1808(D)).
 
 ## Use the free notice analyzer
-The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few days: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.
+The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few weeks: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.
 
 [Open the analyzer](https://app.resolvemyhoa.com)
 

@@ -66,7 +66,7 @@ Only if the rule doesn't impair function or adversely affect cost or efficiency 
 Your documents may require an application; placement rules are allowed if reasonable (A.R.S. 33-1816(B)).
 
 ## Use the free notice analyzer
-The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few days: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.
+The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few weeks: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.
 
 [Open the analyzer](https://app.resolvemyhoa.com)
 

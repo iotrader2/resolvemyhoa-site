@@ -11,7 +11,7 @@ Available at [app.resolvemyhoa.com](https://app.resolvemyhoa.com):
 - Document upload and storage
 - Saved cases
 
-Coming in the next few days (no price set yet; pricing will be announced at launch):
+Coming in the next few weeks (no price set yet; pricing will be announced at launch):
 
 - A timeline for each case that tracks due dates and responses
 - Letter and email drafts

@@ -765,7 +765,7 @@ def guides_hub_html() -> str:
 {chr(10).join(sections)}
     <section class="cta-block" aria-labelledby="cta-h">
       <h2 id="cta-h">Use the free notice analyzer</h2>
-      <p>The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few days: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.</p>
+      <p>The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few weeks: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.</p>
       <p><a class="btn" href="{APP}">Open the analyzer</a></p>
     </section>
   </main>

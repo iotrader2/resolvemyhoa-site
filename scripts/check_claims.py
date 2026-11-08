@@ -31,7 +31,7 @@ REQUIRED_HOME = [
     "https://app.resolvemyhoa.com",
     "Open the free analyzer",
     "Create an account",
-    "Coming in the next few days",
+    "Coming in the next few weeks",
     "Everything available today is free",
     "certified mail",
     "Not a law firm and not legal advice.",
