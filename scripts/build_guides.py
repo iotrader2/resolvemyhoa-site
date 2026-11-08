@@ -13,6 +13,7 @@ CONTENT = ROOT / "content"
 LAST_REVIEWED = "November 3, 2026"
 LASTMOD = "2026-11-03"
 SITE = "https://resolvemyhoa.com"
+APP = "https://app.resolvemyhoa.com"
 
 PAGES = {
     "respond-to-hoa-violation-letter-arizona": {
@@ -182,6 +183,14 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     return meta, body
 
 
+def anchor(label_html: str, url: str) -> str:
+    """Render a link. Marketing-site links land on the analyzer card."""
+    if url.rstrip("/") in (SITE, SITE + "/") or url == "https://resolvemyhoa.com":
+        url = "/#join"
+    cls = ' class="btn"' if url.rstrip("/") == APP else ""
+    return f'<a{cls} href="{html.escape(url, quote=True)}">{label_html}</a>'
+
+
 def inline_md(text: str) -> str:
     """Convert inline markdown; preserve literal text."""
     # Bold-wrapped links: **[label](url)**
@@ -194,22 +203,16 @@ def inline_md(text: str) -> str:
     last = 0
     for m in re.finditer(r"\[([^\]]+)\]\(([^)]+)\)", text):
         parts.append(escape_with_bold(text[last : m.start()]))
-        label, url = m.group(1), m.group(2)
-        if url.rstrip("/") in (SITE, SITE + "/") or url == "https://resolvemyhoa.com":
-            url = "/#join"
-        parts.append(f'<a href="{html.escape(url, quote=True)}">{escape_with_bold(label)}</a>')
+        parts.append(anchor(escape_with_bold(m.group(1)), m.group(2)))
         last = m.end()
     parts.append(escape_with_bold(text[last:]))
     out = "".join(parts)
 
     def restore_strong_link(m: re.Match) -> str:
-        label, url = m.group(1), m.group(2)
-        if url.rstrip("/") in (SITE, SITE + "/") or url == "https://resolvemyhoa.com":
-            url = "/#join"
-        return (
-            f'<strong><a href="{html.escape(url, quote=True)}">'
-            f"{html.escape(label)}</a></strong>"
-        )
+        html_a = anchor(html.escape(m.group(1)), m.group(2))
+        if ' class="btn"' in html_a:
+            return html_a
+        return f"<strong>{html_a}</strong>"
 
     out = re.sub(
         r"\x00STRONG_A\x00(.*?)\x00URL\x00(.*?)\x00STRONG_B\x00",
@@ -272,13 +275,13 @@ def md_to_html(body: str) -> tuple[str, str, list[dict]]:
             i += 1
             continue
 
-        if stripped.startswith("## Get help"):
+        if stripped.startswith("## Get help") or stripped.startswith("## Use the free"):
             close_list()
             close_bq()
             if in_faq:
                 html_parts.append("</section>")
                 in_faq = False
-            # CTA section — keep wording, retarget waitlist link via inline_md
+            # Product CTA. Wording lives in the markdown; keep it to what is actually offered.
             html_parts.append('<section class="cta-block" aria-labelledby="cta-h">')
             html_parts.append(f'<h2 id="cta-h">{html.escape(stripped[3:])}</h2>')
             i += 1
@@ -494,12 +497,21 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--sand);line-height:1.55;font-size:17px}
 a{color:var(--teal)}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-header.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;padding:18px 0}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700;font-size:19px;letter-spacing:-.01em}
 .brand img{width:36px;height:36px}
+.tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+nav.site{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+nav.site a{text-decoration:none;color:var(--ink);font-size:15px;font-weight:600;padding:8px 12px;border-radius:999px}
+nav.site a:hover{color:var(--teal)}
+nav.site a.nav-cta{background:var(--teal);color:#fff;font-weight:700}
+nav.site a.nav-cta:hover{background:var(--teal-dark);color:#fff}
 .xlink{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6)}
 .xlink:hover{border-color:var(--teal);color:var(--teal)}
 .xlink svg{width:15px;height:15px}
+a:focus-visible{outline:3px solid rgba(15,118,110,.35);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;line-height:1.2;color:#fff;background:var(--teal);text-decoration:none;border-radius:10px;padding:12px 16px}
+.btn:hover{background:var(--teal-dark);color:#fff}
 .crumb{font-size:14px;color:var(--muted);margin:8px 0 0}
 .crumb a{color:var(--muted);text-decoration:none}
 .crumb a:hover{color:var(--teal)}
@@ -530,7 +542,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 40px;font
 footer .disc{font-weight:600;color:var(--ink);font-size:15px;margin:0 0 8px}
 footer p{margin:0 0 6px}
 @media (max-width:860px){body{font-size:16px}article.guide{padding-top:18px}}
-@media (max-width:520px){.wrap{padding:0 16px}.cta-block{padding:18px}.xlink span{display:none}}
+@media (max-width:520px){.wrap{padding:0 16px}.cta-block{padding:18px}.cta-block a.btn{display:flex}.xlink span{display:none}.tools{width:100%;justify-content:space-between;align-items:flex-start}nav.site{flex:1;min-width:0;gap:4px}nav.site a{padding:10px}}
 """
 
 
@@ -572,7 +584,14 @@ def page_html(slug: str, meta: dict, article: str, h1: str, faqs: list[dict]) ->
 <div class="wrap">
   <header class="top">
     <a class="brand" href="/" aria-label="Resolve My HOA home"><img src="/assets/logo.png" alt="" width="36" height="36">Resolve My HOA</a>
-    <a class="xlink" href="https://x.com/resolvemyhoa" rel="me noopener" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@resolvemyhoa</span></a>
+    <div class="tools">
+      <nav class="site" aria-label="Site">
+        <a href="/#pricing">Pricing</a>
+        <a href="/#guides">Guides</a>
+        <a class="nav-cta" href="https://app.resolvemyhoa.com">Open the analyzer</a>
+      </nav>
+      <a class="xlink" href="https://x.com/resolvemyhoa" rel="me noopener" target="_blank" aria-label="@resolvemyhoa on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@resolvemyhoa</span></a>
+    </div>
   </header>
 
   <p class="crumb"><a href="/">Home</a> &middot; <a href="/#guides">Arizona HOA guides</a></p>

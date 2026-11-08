@@ -75,8 +75,10 @@ The reply must include the first and last name of the person or persons who obse
 **Can my HOA fine me without a hearing?**
 Penalties may be imposed only after notice and an opportunity to be heard (A.R.S. 33-1803(B)).
 
-## Get help putting it on paper
-Resolve My HOA is building a calm, plain-English way to understand your HOA notice, track every deadline, and write a clear reply. Starting in Arizona. **[Join the waitlist](https://resolvemyhoa.com)** to be first in line.
+## Use the free notice analyzer
+The free notice analyzer is open. Create an account to upload and store documents and save a case. Letter and email drafts, and certified or physical mailing, are coming soon, with no date: mailing stays closed until the mail provider approves it. Nothing on this site is for sale.
+
+[Open the analyzer](https://app.resolvemyhoa.com)
 
 *This is general information, not legal advice. Resolve My HOA is not a law firm.*
 
