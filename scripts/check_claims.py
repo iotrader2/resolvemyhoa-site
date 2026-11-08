@@ -9,6 +9,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 HTML = [ROOT / "index.html"] + sorted(ROOT.glob("*/index.html"))
+# Moved-page stubs (meta refresh to the new URL) are checked separately below.
+REDIRECTS = {"arizona-hoa-faq": "hoa-board-vs-management-company-arizona"}
+HTML = [p for p in HTML if p.parent.name not in REDIRECTS]
 
 # Retired or over-broad offers. Match visible copy, not the image bytes.
 FORBIDDEN = [
@@ -91,6 +94,12 @@ def main() -> int:
     consent = re.search(r'<input id="consent"[^>]*>', home)
     if consent is None or re.search(r"(?:^|\s)checked(?:\s|=|>)", consent.group(0)):
         errors.append("feature-update consent must be an unchecked checkbox")
+
+    for old, target in REDIRECTS.items():
+        stub = ROOT / old / "index.html"
+        text = stub.read_text(encoding="utf-8") if stub.exists() else ""
+        if f'url=/{target}/"' not in text or "noindex" not in text:
+            errors.append(f"/{old}/ must redirect to /{target}/ with noindex")
 
     if errors:
         print("\n".join(errors))

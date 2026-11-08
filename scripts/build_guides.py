@@ -78,6 +78,12 @@ PAGES = {
 HUB = "respond-to-hoa-violation-letter-arizona"
 BOARD_PAGE = "hoa-board-vs-management-company-arizona"
 
+# Published URLs that moved. GitHub Pages can't send HTTP redirects, so each old
+# path gets a small page with a canonical link and an instant meta refresh.
+REDIRECTS = {
+    "arizona-hoa-faq": BOARD_PAGE,
+}
+
 # The /guides/ hub page: topic groups, in display order. Every page in PAGES must
 # appear exactly once. Blurbs come from each page's meta description.
 GUIDES_HUB = "guides"
@@ -770,6 +776,25 @@ def guides_hub_html() -> str:
 """
 
 
+def redirect_html(target: str) -> str:
+    url = f"{SITE}/{target}"
+    title = html.escape(PAGES[target]["title"])
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{title} | Resolve My HOA</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{url}">
+<meta http-equiv="refresh" content="0; url=/{target}/">
+</head>
+<body>
+<p>This page moved to <a href="/{target}/">{title}</a>.</p>
+</body>
+</html>
+"""
+
+
 def write_sitemap() -> None:
     urls = ["", GUIDES_HUB] + list(PAGES.keys())
     parts = [
@@ -831,6 +856,10 @@ def build() -> None:
     hub_dir.mkdir(exist_ok=True)
     (hub_dir / "index.html").write_text(guides_hub_html(), encoding="utf-8")
     print(f"wrote {GUIDES_HUB}/index.html")
+    for old, target in REDIRECTS.items():
+        (ROOT / old).mkdir(exist_ok=True)
+        (ROOT / old / "index.html").write_text(redirect_html(target), encoding="utf-8")
+        print(f"wrote {old}/index.html (redirect to /{target}/)")
     write_sitemap()
     write_robots()
     print("wrote sitemap.xml and robots.txt")
