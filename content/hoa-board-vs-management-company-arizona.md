@@ -74,7 +74,7 @@ Ask the board in writing for the hearing you're entitled to under A.R.S. 33-1803
 Condo associations follow parallel rules: penalties only after notice and an opportunity to be heard (A.R.S. 33-1242(A)(11)), the same 21-day and 10-business-day exchange (33-1242(B)–(D)), records under 33-1258, and open meetings under 33-1248. Condo associations also have a statutory duty to exercise discretionary powers neutrally, fairly, without favoritism and in a nonarbitrary way (A.R.S. 33-1242(E)).
 
 ## Use the free notice analyzer
-The free notice analyzer is open. Create an account to upload and store documents and save a case. Letter and email drafts, and certified or physical mailing, are coming soon, with no date: mailing stays closed until the mail provider approves it. Nothing on this site is for sale.
+The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few days: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.
 
 [Open the analyzer](https://app.resolvemyhoa.com)
 

@@ -62,7 +62,7 @@ Not the regular assessment: more than a 20% increase over the prior year needs m
 Penalties require notice and an opportunity to be heard (A.R.S. 33-1803(B)).
 
 ## Use the free notice analyzer
-The free notice analyzer is open. Create an account to upload and store documents and save a case. Letter and email drafts, and certified or physical mailing, are coming soon, with no date: mailing stays closed until the mail provider approves it. Nothing on this site is for sale.
+The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few days: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.
 
 [Open the analyzer](https://app.resolvemyhoa.com)
 
