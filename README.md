@@ -11,14 +11,16 @@ Available at [app.resolvemyhoa.com](https://app.resolvemyhoa.com):
 - Document upload and storage
 - Saved cases
 
-Not available:
+Coming in the next few weeks (no price set yet; pricing will be announced at launch):
 
-- Letter or email drafts
-- Certified or physical mailing (Lob approval is still pending; do not promise a date)
+- A timeline for each case that tracks due dates and responses
+- Letter and email drafts
+- Certified mail only, no other mailing option (opens once Lob approves it)
+
+Not available, and not mentioned on the site:
+
 - Case Pass purchases
 - Paid petition or hearing services
-
-Coming soon, with no date and no price: drafting and certified mailing.
 
 ## Release
 

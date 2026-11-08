@@ -68,7 +68,7 @@ Member expenses aren't common expense liens; a judgment lien for them can't be f
 The board must make reasonable efforts to offer one before filing foreclosure (A.R.S. 33-1807(A)).
 
 ## Use the free notice analyzer
-The free notice analyzer is open. Create an account to upload and store documents and save a case. Letter and email drafts, and certified or physical mailing, are coming soon, with no date: mailing stays closed until the mail provider approves it. Nothing on this site is for sale.
+The free notice analyzer is open. Create an account to upload and store documents and organize them into cases. Coming in the next few weeks: a timeline for each case that tracks due dates and responses, letter and email drafts, and certified mail, which opens as soon as our mail provider approves it. Everything available today is free.
 
 [Open the analyzer](https://app.resolvemyhoa.com)
 
