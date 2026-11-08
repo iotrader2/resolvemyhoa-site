@@ -9,6 +9,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 HTML = [ROOT / "index.html"] + sorted(ROOT.glob("*/index.html"))
+# Moved-page stubs (meta refresh to the new URL) are checked separately below.
+REDIRECTS = {"arizona-hoa-faq": "hoa-board-vs-management-company-arizona"}
+HTML = [p for p in HTML if p.parent.name not in REDIRECTS]
 
 # Retired or over-broad offers. Match visible copy, not the image bytes.
 FORBIDDEN = [
@@ -48,14 +51,14 @@ GUIDE_URLS = [
     "arizona-hoa-lien-foreclosure",
     "arizona-hoa-flags-political-signs",
     "arizona-hoa-solar-panels-law",
-    "arizona-hoa-faq",
+    "hoa-board-vs-management-company-arizona",
 ]
 
 
 def main() -> int:
     errors: list[str] = []
-    if len(HTML) != 10:
-        errors.append(f"expected 10 HTML pages, found {len(HTML)}")
+    if len(HTML) != 11:
+        errors.append(f"expected 11 HTML pages, found {len(HTML)}")
 
     for path in HTML:
         text = path.read_text(encoding="utf-8")
@@ -70,7 +73,7 @@ def main() -> int:
         if rel != "index.html":
             if "Open the analyzer" not in text:
                 errors.append(f"{rel} is missing the analyzer CTA")
-            if "azleg.gov" not in text:
+            if rel != "guides/index.html" and "azleg.gov" not in text:
                 errors.append(f"{rel} is missing Arizona statute links")
             if 'rel="canonical"' not in text and "canonical" not in text:
                 errors.append(f"{rel} is missing a canonical link")
@@ -79,15 +82,24 @@ def main() -> int:
     for needle in REQUIRED_HOME:
         if needle not in home:
             errors.append(f"homepage is missing {needle!r}")
+    if 'href="/guides/"' not in home:
+        errors.append("homepage is missing the link to /guides/")
+    hub = (ROOT / "guides" / "index.html").read_text(encoding="utf-8")
     for slug in GUIDE_URLS:
-        if f"/{slug}/" not in home:
-            errors.append(f"homepage guide list is missing /{slug}/")
+        if f"/{slug}/" not in hub:
+            errors.append(f"guides page is missing /{slug}/")
 
     # The opt-in must stay explicit and unchecked. "checkbox" contains the letters
     # "checked", so look for the attribute rather than that substring.
     consent = re.search(r'<input id="consent"[^>]*>', home)
     if consent is None or re.search(r"(?:^|\s)checked(?:\s|=|>)", consent.group(0)):
         errors.append("feature-update consent must be an unchecked checkbox")
+
+    for old, target in REDIRECTS.items():
+        stub = ROOT / old / "index.html"
+        text = stub.read_text(encoding="utf-8") if stub.exists() else ""
+        if f'url=/{target}/"' not in text or "noindex" not in text:
+            errors.append(f"/{old}/ must redirect to /{target}/ with noindex")
 
     if errors:
         print("\n".join(errors))
