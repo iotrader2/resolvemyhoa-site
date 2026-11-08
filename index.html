@@ -116,10 +116,15 @@ footer p{margin:0 0 6px}
 @media (max-width:520px){
   .wrap{padding:0 16px}
   .banner{border-radius:12px}
-  .xlink span{display:none}
-  .tools{width:100%;justify-content:space-between;align-items:flex-start}
-  nav.site{flex:1;min-width:0;gap:4px}
-  nav.site a{padding:10px}
+  .xlink{display:none}
+  .tools{width:100%}
+  nav.site{flex:1;flex-wrap:nowrap;gap:2px}
+  nav.site a{padding:10px;white-space:nowrap}
+  nav.site a.nav-cta{margin-left:auto;padding:10px 14px}
+}
+@media (max-width:359px){
+  nav.site a{padding:10px 7px;font-size:14px}
+  nav.site a.nav-cta{padding:10px 11px}
 }
 </style>
 </head>
