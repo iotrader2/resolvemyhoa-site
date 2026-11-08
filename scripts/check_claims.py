@@ -48,14 +48,14 @@ GUIDE_URLS = [
     "arizona-hoa-lien-foreclosure",
     "arizona-hoa-flags-political-signs",
     "arizona-hoa-solar-panels-law",
-    "arizona-hoa-faq",
+    "hoa-board-vs-management-company-arizona",
 ]
 
 
 def main() -> int:
     errors: list[str] = []
-    if len(HTML) != 10:
-        errors.append(f"expected 10 HTML pages, found {len(HTML)}")
+    if len(HTML) != 11:
+        errors.append(f"expected 11 HTML pages, found {len(HTML)}")
 
     for path in HTML:
         text = path.read_text(encoding="utf-8")
@@ -70,7 +70,7 @@ def main() -> int:
         if rel != "index.html":
             if "Open the analyzer" not in text:
                 errors.append(f"{rel} is missing the analyzer CTA")
-            if "azleg.gov" not in text:
+            if rel != "guides/index.html" and "azleg.gov" not in text:
                 errors.append(f"{rel} is missing Arizona statute links")
             if 'rel="canonical"' not in text and "canonical" not in text:
                 errors.append(f"{rel} is missing a canonical link")
@@ -79,9 +79,12 @@ def main() -> int:
     for needle in REQUIRED_HOME:
         if needle not in home:
             errors.append(f"homepage is missing {needle!r}")
+    if 'href="/guides/"' not in home:
+        errors.append("homepage is missing the link to /guides/")
+    hub = (ROOT / "guides" / "index.html").read_text(encoding="utf-8")
     for slug in GUIDE_URLS:
-        if f"/{slug}/" not in home:
-            errors.append(f"homepage guide list is missing /{slug}/")
+        if f"/{slug}/" not in hub:
+            errors.append(f"guides page is missing /{slug}/")
 
     # The opt-in must stay explicit and unchecked. "checkbox" contains the letters
     # "checked", so look for the attribute rather than that substring.

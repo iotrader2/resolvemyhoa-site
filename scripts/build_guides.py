@@ -64,19 +64,42 @@ PAGES = {
         "keyword": "how to request HOA records in Arizona",
         "nav_title": "How to Request HOA Records in Arizona (A.R.S. 33-1805)",
     },
-    "arizona-hoa-faq": {
-        "title": "Arizona HOA FAQ: Fines, the Board & the Management Company",
-        "meta": "Answers on Arizona HOA fines, who really decides them, and how the board and the management company differ in role, pay, and incentives.",
-        "keyword": "Arizona HOA fines FAQ",
-        "nav_title": "Arizona HOA FAQ: Fines, the Board & the Management Company",
+    "hoa-board-vs-management-company-arizona": {
+        "title": "HOA Board vs. Management Company in Arizona: Who Decides, Who Gets Paid",
+        "meta": "Who really runs your Arizona HOA? How the board and the management company differ in authority, pay, and incentives, and who decides your fines.",
+        "keyword": "HOA board vs management company",
+        "nav_title": "HOA Board vs. Management Company in Arizona: Who Decides, Who Gets Paid",
         "reviewed": "November 8, 2026",
         "lastmod": "2026-11-08",
     },
 }
 
-FAQ_PAGE = "arizona-hoa-faq"
 
 HUB = "respond-to-hoa-violation-letter-arizona"
+BOARD_PAGE = "hoa-board-vs-management-company-arizona"
+
+# The /guides/ hub page: topic groups, in display order. Every page in PAGES must
+# appear exactly once. Blurbs come from each page's meta description.
+GUIDES_HUB = "guides"
+GUIDE_GROUPS = [
+    (
+        "Violation letters, fines and liens",
+        [HUB, "arizona-hoa-fines-late-fees-limits", "arizona-hoa-lien-foreclosure"],
+    ),
+    (
+        "Working with your board",
+        [
+            BOARD_PAGE,
+            "arizona-hoa-board-meetings-open-recording",
+            "request-hoa-records-arizona",
+            "arizona-adre-hoa-dispute-petition",
+        ],
+    ),
+    (
+        "Your home and property",
+        ["arizona-hoa-flags-political-signs", "arizona-hoa-solar-panels-law"],
+    ),
+]
 
 # Related guides shown below the article (layout only; body text stays verbatim).
 # Hub lists all others; others always include the hub, plus brief-map extras.
@@ -89,11 +112,11 @@ RELATED = {
         "arizona-hoa-lien-foreclosure",
         "arizona-hoa-solar-panels-law",
         "request-hoa-records-arizona",
-        FAQ_PAGE,
+        BOARD_PAGE,
     ],
     "arizona-adre-hoa-dispute-petition": [HUB, "request-hoa-records-arizona"],
     "arizona-hoa-board-meetings-open-recording": [HUB, "request-hoa-records-arizona"],
-    "arizona-hoa-fines-late-fees-limits": [HUB, "request-hoa-records-arizona", "arizona-adre-hoa-dispute-petition", FAQ_PAGE],
+    "arizona-hoa-fines-late-fees-limits": [HUB, "request-hoa-records-arizona", "arizona-adre-hoa-dispute-petition", BOARD_PAGE],
     "arizona-hoa-flags-political-signs": [HUB, "request-hoa-records-arizona"],
     "arizona-hoa-lien-foreclosure": [HUB, "arizona-hoa-fines-late-fees-limits"],
     "arizona-hoa-solar-panels-law": [HUB, "request-hoa-records-arizona"],
@@ -102,7 +125,7 @@ RELATED = {
         "arizona-hoa-board-meetings-open-recording",
         "arizona-adre-hoa-dispute-petition",
     ],
-    FAQ_PAGE: [
+    BOARD_PAGE: [
         HUB,
         "arizona-hoa-fines-late-fees-limits",
         "request-hoa-records-arizona",
@@ -578,6 +601,28 @@ footer p{margin:0 0 6px}
 """
 
 
+SITE_HEADER = """<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/" aria-label="Resolve My HOA home"><img src="/assets/logo.png" alt="" width="36" height="36">Resolve My HOA</a>
+    <div class="tools">
+      <nav class="site" aria-label="Site">
+        <a href="/#pricing">Pricing</a>
+        <a href="/guides/">Guides</a>
+        <a class="nav-cta" href="https://app.resolvemyhoa.com">Open the analyzer</a>
+      </nav>
+      <a class="xlink" href="https://x.com/resolvemyhoa" rel="me noopener" target="_blank" aria-label="@resolvemyhoa on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@resolvemyhoa</span></a>
+    </div>
+  </header>
+"""
+
+SITE_FOOTER = """  <footer>
+    <p class="disc">Not a law firm and not legal advice.</p>
+    <p>Resolve My HOA is self-help software from Innovative Objects LLC. We are not a law firm, we don&rsquo;t provide legal advice, and using this site doesn&rsquo;t create an attorney-client relationship. For advice about your situation, talk to a licensed Arizona attorney.</p>
+    <p>&copy; 2026 Innovative Objects LLC &middot; <a href="https://x.com/resolvemyhoa" rel="noopener" target="_blank">@resolvemyhoa on X</a></p>
+  </footer>
+"""
+
+
 def page_html(slug: str, meta: dict, article: str, h1: str, faqs: list[dict]) -> str:
     title = meta.get("title") or PAGES[slug]["title"]
     desc = meta.get("meta_description") or PAGES[slug]["meta"]
@@ -613,21 +658,8 @@ def page_html(slug: str, meta: dict, article: str, h1: str, faqs: list[dict]) ->
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <a class="brand" href="/" aria-label="Resolve My HOA home"><img src="/assets/logo.png" alt="" width="36" height="36">Resolve My HOA</a>
-    <div class="tools">
-      <nav class="site" aria-label="Site">
-        <a href="/#pricing">Pricing</a>
-        <a href="/#guides">Guides</a>
-        <a href="/{FAQ_PAGE}/">FAQ</a>
-        <a class="nav-cta" href="https://app.resolvemyhoa.com">Open the analyzer</a>
-      </nav>
-      <a class="xlink" href="https://x.com/resolvemyhoa" rel="me noopener" target="_blank" aria-label="@resolvemyhoa on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@resolvemyhoa</span></a>
-    </div>
-  </header>
-
-  <p class="crumb"><a href="/">Home</a> &middot; <a href="/#guides">Arizona HOA guides</a></p>
+{SITE_HEADER}
+  <p class="crumb"><a href="/">Home</a> &middot; <a href="/guides/">Arizona HOA guides</a></p>
 
   <article class="guide">
     <p class="meta-row">Last reviewed: {PAGES[slug].get("reviewed", LAST_REVIEWED)}</p>
@@ -635,28 +667,121 @@ def page_html(slug: str, meta: dict, article: str, h1: str, faqs: list[dict]) ->
 {related_html(slug)}
   </article>
 
-  <footer>
-    <p class="disc">Not a law firm and not legal advice.</p>
-    <p>Resolve My HOA is self-help software from Innovative Objects LLC. We are not a law firm, we don&rsquo;t provide legal advice, and using this site doesn&rsquo;t create an attorney-client relationship. For advice about your situation, talk to a licensed Arizona attorney.</p>
-    <p>&copy; 2026 Innovative Objects LLC &middot; <a href="https://x.com/resolvemyhoa" rel="noopener" target="_blank">@resolvemyhoa on X</a></p>
-  </footer>
-</div>
+{SITE_FOOTER}</div>
+</body>
+</html>
+"""
+
+
+HUB_CSS = """
+.hub{max-width:760px;padding:28px 0 8px}
+.hub h1{font-size:clamp(28px,4vw,40px);line-height:1.15;letter-spacing:-.02em;margin:0 0 12px;color:#123E47}
+.hub .lead{color:var(--muted);margin:0 0 8px;max-width:40em}
+.hub h2{font-size:22px;margin:32px 0 12px;color:#123E47;letter-spacing:-.01em}
+.hub ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.hub li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.hub li a{font-weight:700;text-decoration:none}
+.hub li a:hover{text-decoration:underline}
+.hub li p{margin:4px 0 0;color:var(--muted);font-size:15.5px}
+"""
+
+
+def guides_hub_html() -> str:
+    grouped = [s for _, slugs in GUIDE_GROUPS for s in slugs]
+    if sorted(grouped) != sorted(PAGES):
+        raise SystemExit("GUIDE_GROUPS must list every page in PAGES exactly once")
+    title = "Arizona HOA Guides"
+    desc = "Plain-English Arizona HOA guides: violation letters, fines, liens, records, board meetings, the management company, ADRE petitions, flags, and solar."
+    canonical = f"{SITE}/{GUIDES_HUB}/"
+    sections = []
+    for heading, slugs in GUIDE_GROUPS:
+        items = "".join(
+            f'<li><a href="/{s}/">{html.escape(PAGES[s]["nav_title"])}</a>'
+            f'<p>{html.escape(PAGES[s]["meta"])}</p></li>'
+            for s in slugs
+        )
+        sections.append(f"<h2>{html.escape(heading)}</h2>\n<ul>{items}</ul>")
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": title,
+        "description": desc,
+        "url": canonical,
+        "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": n, "url": f"{SITE}/{s}/", "name": PAGES[s]["nav_title"]}
+                for n, s in enumerate(grouped, 1)
+            ],
+        },
+    }
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title} | Resolve My HOA</title>
+<meta name="description" content="{html.escape(desc)}">
+<meta name="author" content="Resolve My HOA">
+<meta name="theme-color" content="#0F766E">
+<link rel="canonical" href="{canonical}">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Resolve My HOA">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{html.escape(desc)}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{SITE}/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@resolvemyhoa">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{html.escape(desc)}">
+<meta name="twitter:image" content="{SITE}/assets/og.jpg">
+<script type="application/ld+json">
+{json.dumps(ld, ensure_ascii=False, indent=2)}
+</script>
+<style>
+{SHARED_CSS.strip()}
+{HUB_CSS.strip()}
+</style>
+</head>
+<body>
+{SITE_HEADER}
+  <p class="crumb"><a href="/">Home</a></p>
+
+  <main class="hub">
+    <h1>Arizona HOA guides</h1>
+    <p class="lead">Plain-English explainers of Arizona HOA statutes, for homeowners sorting through a notice. Each guide cites the statute it relies on. The guides are general information, not a service we sell.</p>
+{chr(10).join(sections)}
+    <section class="cta-block" aria-labelledby="cta-h">
+      <h2 id="cta-h">Use the free notice analyzer</h2>
+      <p>The free notice analyzer is open. Create an account to upload and store documents and save a case. Letter and email drafts, and certified or physical mailing, are coming soon, with no date: mailing stays closed until the mail provider approves it. Nothing on this site is for sale.</p>
+      <p><a class="btn" href="{APP}">Open the analyzer</a></p>
+    </section>
+  </main>
+
+{SITE_FOOTER}</div>
 </body>
 </html>
 """
 
 
 def write_sitemap() -> None:
-    urls = [""] + list(PAGES.keys())
+    urls = ["", GUIDES_HUB] + list(PAGES.keys())
     parts = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
     for u in urls:
-        loc = f"{SITE}/" if u == "" else f"{SITE}/{u}"
+        loc = f"{SITE}/" if u == "" else f"{SITE}/{u}/" if u == GUIDES_HUB else f"{SITE}/{u}"
         parts.append("  <url>")
         parts.append(f"    <loc>{loc}</loc>")
-        lastmod = PAGES[u].get("lastmod", LASTMOD) if u else LASTMOD
+        lastmod = PAGES[u].get("lastmod", LASTMOD) if u in PAGES else LASTMOD
+        if u == GUIDES_HUB:
+            lastmod = max(p.get("lastmod", LASTMOD) for p in PAGES.values())
         parts.append(f"    <lastmod>{lastmod}</lastmod>")
         parts.append("  </url>")
     parts.append("</urlset>")
@@ -701,6 +826,10 @@ def build() -> None:
             page_html(slug, meta, article, h1, faqs), encoding="utf-8"
         )
         print(f"wrote {slug}/index.html ({len(faqs)} FAQs)")
+    hub_dir = ROOT / GUIDES_HUB
+    hub_dir.mkdir(exist_ok=True)
+    (hub_dir / "index.html").write_text(guides_hub_html(), encoding="utf-8")
+    print(f"wrote {GUIDES_HUB}/index.html")
     write_sitemap()
     write_robots()
     print("wrote sitemap.xml and robots.txt")
