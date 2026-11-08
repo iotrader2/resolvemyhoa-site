@@ -48,13 +48,14 @@ GUIDE_URLS = [
     "arizona-hoa-lien-foreclosure",
     "arizona-hoa-flags-political-signs",
     "arizona-hoa-solar-panels-law",
+    "arizona-hoa-faq",
 ]
 
 
 def main() -> int:
     errors: list[str] = []
-    if len(HTML) != 9:
-        errors.append(f"expected 9 HTML pages, found {len(HTML)}")
+    if len(HTML) != 10:
+        errors.append(f"expected 10 HTML pages, found {len(HTML)}")
 
     for path in HTML:
         text = path.read_text(encoding="utf-8")

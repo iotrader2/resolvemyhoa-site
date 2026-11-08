@@ -64,7 +64,17 @@ PAGES = {
         "keyword": "how to request HOA records in Arizona",
         "nav_title": "How to Request HOA Records in Arizona (A.R.S. 33-1805)",
     },
+    "arizona-hoa-faq": {
+        "title": "Arizona HOA FAQ: Fines, the Board & the Management Company",
+        "meta": "Answers on Arizona HOA fines, who really decides them, and how the board and the management company differ in role, pay, and incentives.",
+        "keyword": "Arizona HOA fines FAQ",
+        "nav_title": "Arizona HOA FAQ: Fines, the Board & the Management Company",
+        "reviewed": "November 8, 2026",
+        "lastmod": "2026-11-08",
+    },
 }
+
+FAQ_PAGE = "arizona-hoa-faq"
 
 HUB = "respond-to-hoa-violation-letter-arizona"
 
@@ -79,15 +89,23 @@ RELATED = {
         "arizona-hoa-lien-foreclosure",
         "arizona-hoa-solar-panels-law",
         "request-hoa-records-arizona",
+        FAQ_PAGE,
     ],
     "arizona-adre-hoa-dispute-petition": [HUB, "request-hoa-records-arizona"],
     "arizona-hoa-board-meetings-open-recording": [HUB, "request-hoa-records-arizona"],
-    "arizona-hoa-fines-late-fees-limits": [HUB, "request-hoa-records-arizona", "arizona-adre-hoa-dispute-petition"],
+    "arizona-hoa-fines-late-fees-limits": [HUB, "request-hoa-records-arizona", "arizona-adre-hoa-dispute-petition", FAQ_PAGE],
     "arizona-hoa-flags-political-signs": [HUB, "request-hoa-records-arizona"],
     "arizona-hoa-lien-foreclosure": [HUB, "arizona-hoa-fines-late-fees-limits"],
     "arizona-hoa-solar-panels-law": [HUB, "request-hoa-records-arizona"],
     "request-hoa-records-arizona": [
         HUB,
+        "arizona-hoa-board-meetings-open-recording",
+        "arizona-adre-hoa-dispute-petition",
+    ],
+    FAQ_PAGE: [
+        HUB,
+        "arizona-hoa-fines-late-fees-limits",
+        "request-hoa-records-arizona",
         "arizona-hoa-board-meetings-open-recording",
         "arizona-adre-hoa-dispute-petition",
     ],
@@ -247,6 +265,7 @@ def md_to_html(body: str) -> tuple[str, str, list[dict]]:
     h1 = ""
     i = 0
     in_faq = False
+    faq_groups = 0
     in_list: str | None = None  # 'ul' or 'ol'
     in_blockquote = False
 
@@ -266,12 +285,19 @@ def md_to_html(body: str) -> tuple[str, str, list[dict]]:
         line = lines[i]
         stripped = line.strip()
 
-        if stripped == "## FAQ":
+        if stripped == "## FAQ" or stripped.startswith("## FAQ: "):
+            # "## FAQ" is one section; "## FAQ: Topic" starts a titled group.
+            # Every group feeds the same FAQPage JSON-LD.
             close_list()
             close_bq()
+            if in_faq:
+                html_parts.append("</section>")
             in_faq = True
-            html_parts.append('<section class="faq" aria-labelledby="faq-h">')
-            html_parts.append('<h2 id="faq-h">FAQ</h2>')
+            faq_groups += 1
+            hid = "faq-h" if faq_groups == 1 else f"faq-h{faq_groups}"
+            heading = "FAQ" if stripped == "## FAQ" else stripped[len("## FAQ: "):]
+            html_parts.append(f'<section class="faq" aria-labelledby="{hid}">')
+            html_parts.append(f'<h2 id="{hid}">{html.escape(heading)}</h2>')
             i += 1
             continue
 
@@ -447,13 +473,19 @@ def related_html(slug: str) -> str:
     )
 
 
+def plain_text(md: str) -> str:
+    """Strip inline markdown links and bold for structured data."""
+    md = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", md)
+    return md.replace("**", "")
+
+
 def json_ld(slug: str, h1: str, meta_desc: str, faqs: list[dict]) -> str:
     article = {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": h1,
         "description": meta_desc,
-        "dateModified": LASTMOD,
+        "dateModified": PAGES[slug].get("lastmod", LASTMOD),
         "author": {"@type": "Organization", "name": "Resolve My HOA"},
         "publisher": {
             "@type": "Organization",
@@ -475,7 +507,7 @@ def json_ld(slug: str, h1: str, meta_desc: str, faqs: list[dict]) -> str:
             {
                 "@type": "Question",
                 "name": f["q"],
-                "acceptedAnswer": {"@type": "Answer", "text": f["a"]},
+                "acceptedAnswer": {"@type": "Answer", "text": plain_text(f["a"])},
             }
             for f in faqs
         ],
@@ -588,6 +620,7 @@ def page_html(slug: str, meta: dict, article: str, h1: str, faqs: list[dict]) ->
       <nav class="site" aria-label="Site">
         <a href="/#pricing">Pricing</a>
         <a href="/#guides">Guides</a>
+        <a href="/{FAQ_PAGE}/">FAQ</a>
         <a class="nav-cta" href="https://app.resolvemyhoa.com">Open the analyzer</a>
       </nav>
       <a class="xlink" href="https://x.com/resolvemyhoa" rel="me noopener" target="_blank" aria-label="@resolvemyhoa on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@resolvemyhoa</span></a>
@@ -597,7 +630,7 @@ def page_html(slug: str, meta: dict, article: str, h1: str, faqs: list[dict]) ->
   <p class="crumb"><a href="/">Home</a> &middot; <a href="/#guides">Arizona HOA guides</a></p>
 
   <article class="guide">
-    <p class="meta-row">Last reviewed: {LAST_REVIEWED}</p>
+    <p class="meta-row">Last reviewed: {PAGES[slug].get("reviewed", LAST_REVIEWED)}</p>
 {article}
 {related_html(slug)}
   </article>
@@ -623,7 +656,8 @@ def write_sitemap() -> None:
         loc = f"{SITE}/" if u == "" else f"{SITE}/{u}"
         parts.append("  <url>")
         parts.append(f"    <loc>{loc}</loc>")
-        parts.append(f"    <lastmod>{LASTMOD}</lastmod>")
+        lastmod = PAGES[u].get("lastmod", LASTMOD) if u else LASTMOD
+        parts.append(f"    <lastmod>{lastmod}</lastmod>")
         parts.append("  </url>")
     parts.append("</urlset>")
     (ROOT / "sitemap.xml").write_text("\n".join(parts) + "\n", encoding="utf-8")
